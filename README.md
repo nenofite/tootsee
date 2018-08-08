@@ -1,11 +1,7 @@
 [\@tootsee\@botsin.space](https://botsin.space/@tootsee)
 ========================================================
 
- 
-
 Let’s make a Mastodon bot! We’ll name them Tootsee. Here’s the idea:
-
- 
 
 1.  You toot at the bot.
 
@@ -15,25 +11,15 @@ Let’s make a Mastodon bot! We’ll name them Tootsee. Here’s the idea:
 
 4.  The bot replies to your toot with Microsoft’s caption.
 
- 
-
 It’s like a game of telephone but with neural nets.
 
- 
-
 ### Retrieving Mentions from Mastodon
-
- 
 
 Tootsee subscribes to push notifications. This way, Mastodon will call our
 webhook whenever a user toots at tootsee.
 
- 
-
 To subscribe, we post once to `/api/v1/push/subscription`. We specify the
 following form data:
-
- 
 
 -   `subscription[endpoint]` is the URL for the webhook to post to. We’ll use
     `/push` on our Heroku server.
@@ -48,13 +34,9 @@ following form data:
 -   `data[alerts][mention]` is true. This tells Mastodon that we only care about
     mentions.
 
- 
-
 Then we listen for posts to our `/push` endpoint. These requests will contain
 the triggering notification. In our case, it’s always a “mention” notification.
 We care about these fields:
-
- 
 
 -   `type` should always be `mention`. If not, we’ll ignore the notification.
 
@@ -65,33 +47,21 @@ We care about these fields:
 -   `status[content]` is the HTML content of the toot. We’ll strip the HTML
     before using it.
 
- 
-
 ### Getting Images
 
 Todo
-
- 
 
 ### Captioning Images
 
 Todo
 
- 
-
 ### Replying to Mentions
 
- 
-
 To send a reply toot, we post to `/api/v1/statuses` and specify:
-
- 
 
 -   `status` is the text of our toot.
 
 -   `in_reply_to_id` is the ID of the toot we’re replying to.
-
- 
 
 ### References
 
