@@ -1,0 +1,17 @@
+name: tootsee
+version: 0.1.0
+
+authors:
+  - Benjamin Tucker <betucker@ucsd.edu>
+
+targets:
+  tootsee:
+    main: src/tootsee.cr
+
+crystal: 0.25.1
+
+license: MIT
+
+dependencies:
+  mastodon:
+    github: decors/mastodon.cr
