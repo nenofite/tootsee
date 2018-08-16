@@ -1,9 +1,5 @@
 require "mastodon"
-require "http/server"
 
-require "./tootsee/*"
-
-# TODO: Write documentation for `Tootsee`
 module Tootsee
   class Main
     @masto_url: String = ENV["MASTO_URL"]
@@ -11,6 +7,7 @@ module Tootsee
     @port: Int32 = ENV["PORT"].to_i
 
     @client = Mastodon::REST::Client.new(url: @masto_url, access_token: @access_token)
+    @streaming_client = Mastodon::Streaming::Client.new(url: @masto_url, access_token: @access_token)
 
     def send_toot
       puts "Sending toot..."
@@ -18,22 +15,35 @@ module Tootsee
       puts result
     end
 
-    def serve
-      server = HTTP::Server.new do |context|
-        case context.request.path
-        when "/push", "/push/"
-          result = send_toot
-          context.response.content_type = "text/plain"
-          context.response.print(result.to_s)
-        else
-          context.response.respond_with_error("Nothing here", 404)
+    # Subscribe to push notifications and listen for mentions. This does not
+    # return.
+    def listen
+      puts("Listening for notifications")
+      @streaming_client.user do |notification|
+        puts(notification)
+        if notification.is_a?(Mastodon::Entities::Notification) &&
+            notification.type == "mention"
+          handle_mention(notification)
         end
       end
+    end
 
-      puts "Listening on #{@port}"
-      server.listen @port
+    private def handle_mention(notification)
+      status = notification.status
+      return unless notification.type == "mention" && status
+      puts status.content
+      # message = "ah yes, #{status.content}"
+      # @client.create_status(message, in_reply_to_id: status.id)
+    end
+  end
+
+  def self.run
+    loop do
+      Main.new.listen
+    rescue ex
+      puts("Exception in listen loop: #{ex}")
     end
   end
 end
 
-Tootsee::Main.new.serve
+Tootsee.run
