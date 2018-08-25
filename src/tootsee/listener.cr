@@ -17,15 +17,15 @@ module Tootsee
         next unless notif.type == "mention"
         next unless status = notif.status
         mention = {
-          text: strip_html(status.content),
+          text: Listener.strip_html(status.content),
           id: status.id,
         }
         yield mention
       end
     end
 
-    private def strip_html(str)
-      str # TODO
+    def self.strip_html(str : String) : String
+      str
     end
   end
 end

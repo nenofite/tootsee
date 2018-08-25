@@ -35,12 +35,19 @@ module Tootsee
 
       it "strips HTML from the mention" do
         notifs = [FakeEntities.fake_mention]
-        notifs[0].status?.contents.should be "<p>Hello world.</p>"
+        notifs[0].status.not_nil!.content.should eq "<p>Hello world.</p>"
         stream = MockMastodonStream.new(notifs)
 
         Tootsee::Listener.new(stream).listen do |mention|
-          mention[:text].should be "Hello world."
+          mention[:text].should eq "Hello world."
         end
+      end
+    end
+
+    describe "#strip_html" do
+      it "strips HTML tags from the string" do
+        str = "<many><!-- types --> of<br /> tags </many>."
+        Tootsee::Listener.strip_html(str).should eq " of tags ."
       end
     end
   end
