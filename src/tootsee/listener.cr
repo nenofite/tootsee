@@ -6,7 +6,7 @@ module Tootsee
     # is stripped from the toot contents.
     alias Mention = {
       text: String,
-      id: Int32,
+      id: String,
     }
 
     def initialize(@stream : Ports::MastodonStream); end
