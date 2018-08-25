@@ -4,7 +4,7 @@ module Tootsee
     def initialize(@client : Ports::MastodonClient); end
 
     # Send the given text in reply to the given mention.
-    def reply(text : String, in_reply_to : Mention)
+    def reply(text : String, in_reply_to : Listener::Mention)
     end
   end
 end
