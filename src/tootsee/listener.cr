@@ -7,6 +7,8 @@ module Tootsee
     alias Mention = {
       text: String,
       id: String,
+      visibility: String,
+      spoiler_text: String,
     }
 
     def initialize(@stream : Ports::MastodonStream); end
