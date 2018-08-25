@@ -19,13 +19,28 @@ end
 class MockMastodonClient < Tootsee::Ports::MastodonClient
   getter toots
 
-  alias Toot = {String, String?}
+  alias Toot = {
+    text: String,
+    in_reply_to_id: String?,
+    spoiler_text: String,
+    visibility: String,
+  }
 
   def initialize
     @toots = [] of Toot
   end
 
-  def toot(text : String, in_reply_to_id : String?)
-    @toots << {text, in_reply_to_id}
+  def toot(
+    text : String,
+    in_reply_to_id : String?,
+    spoiler_text : String,
+    visibility : String,
+  )
+    @toots << {
+      text: text,
+      in_reply_to_id: in_reply_to_id,
+      spoiler_text: spoiler_text,
+      visibility: visibility,
+    }
   end
 end
