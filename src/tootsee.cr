@@ -1,6 +1,16 @@
 require "mastodon"
 
+require "./tootsee/*"
+
 module Tootsee
+  # Configuration for the bot, e.g. the Mastodon URL and secret keys. These are
+  # extracted from environment variables.
+  alias Config = {
+    masto_url: String,
+    access_token: String,
+    port: Int32,
+  }
+
   class Main
     @masto_url: String = ENV["MASTO_URL"]
     @access_token: String = ENV["ACCESS_TOKEN"]
@@ -46,4 +56,4 @@ module Tootsee
   end
 end
 
-Tootsee.run
+# Tootsee.run
