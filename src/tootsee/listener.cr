@@ -30,6 +30,10 @@ module Tootsee
         .gsub(/<[^>]+>/, "")
         # Strip mentions
         .gsub(/@[^\s]+/, "")
+        # Normalize whitespace
+        .gsub(/\s+/, " ")
+        # Strip
+        .strip
     end
   end
 end

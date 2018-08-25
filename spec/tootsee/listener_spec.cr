@@ -33,25 +33,14 @@ module Tootsee
         called.should eq 2
       end
 
-      it "strips HTML from the mention" do
+      it "strips HTML and @mentions then normalizes whitespace" do
         mention = FakeEntities.fake_mention
-        mention.status.not_nil!.content = "<p><!-- blah -->Hello<br /> world</p>."
+        mention.status.not_nil!.content = "<p><!-- blah -->Hello<br /> <a>@<span>hobob</span></a> \nworld</p>.    "
         notifs = [mention]
         stream = MockMastodonStream.new(notifs)
 
         Tootsee::Listener.new(stream).listen do |mention|
           mention[:text].should eq "Hello world."
-        end
-      end
-
-      it "strips @mentions from the mention" do
-        mention = FakeEntities.fake_mention
-        mention.status.not_nil!.content = "<a>@<span>hobob</span></a> foo"
-        notifs = [mention]
-        stream = MockMastodonStream.new(notifs)
-
-        Tootsee::Listener.new(stream).listen do |mention|
-          mention[:text].should eq " foo"
         end
       end
     end
