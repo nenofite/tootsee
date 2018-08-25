@@ -1,5 +1,3 @@
-require "mastodon"
-
 module Tootsee
   module Ports
     abstract class MastodonStream

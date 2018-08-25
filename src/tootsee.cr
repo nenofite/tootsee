@@ -1,6 +1,6 @@
 require "mastodon"
 
-require "./tootsee/*"
+require "./tootsee/**"
 
 module Tootsee
   # Configuration for the bot, e.g. the Mastodon URL and secret keys. These are
