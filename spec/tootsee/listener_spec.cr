@@ -4,7 +4,11 @@ module Tootsee
   describe Listener do
     describe "#listen" do
       it "yields for each mention" do
-        notifs = [fake_mention, fake_mention, fake_mention]
+        notifs = [
+          FakeEntities.fake_mention,
+          FakeEntities.fake_mention,
+          FakeEntities.fake_mention,
+        ]
         stream = MockMastodonStream.new(notifs)
 
         called = 0
@@ -15,7 +19,11 @@ module Tootsee
       end
 
       it "discards non-mentions" do
-        notifs = [fake_mention, fake_follow, fake_mention]
+        notifs = [
+          FakeEntities.fake_mention,
+          FakeEntities.fake_follow,
+          FakeEntities.fake_mention,
+        ]
         stream = MockMastodonStream.new(notifs)
 
         called = 0
@@ -26,8 +34,7 @@ module Tootsee
       end
 
       it "strips HTML from the mention" do
-        notifs = [fake_mention]
-        notifs[0].status.should be "<p>Hello world.</p>"
+        notifs = [FakeEntities.fake_mention]
         stream = MockMastodonStream.new(notifs)
 
         Tootsee::Listener.new(stream).listen do |mention|
