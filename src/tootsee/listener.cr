@@ -25,7 +25,7 @@ module Tootsee
     end
 
     def self.strip_html(str : String) : String
-      str
+      str.gsub(/<[^>]+>/, "")
     end
   end
 end
