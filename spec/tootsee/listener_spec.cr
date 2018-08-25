@@ -35,6 +35,7 @@ module Tootsee
 
       it "strips HTML from the mention" do
         notifs = [FakeEntities.fake_mention]
+        notifs[0].status?.contents.should be "<p>Hello world.</p>"
         stream = MockMastodonStream.new(notifs)
 
         Tootsee::Listener.new(stream).listen do |mention|
