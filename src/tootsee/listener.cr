@@ -21,6 +21,8 @@ module Tootsee
         mention = {
           text: Listener.strip_html(status.content),
           id: status.id,
+          visibility: status.visibility,
+          spoiler_text: status.spoiler_text,
         }
         yield mention
       end
