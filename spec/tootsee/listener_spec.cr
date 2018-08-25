@@ -5,14 +5,18 @@ module Tootsee
     describe "#listen" do
       it "yields for each mention" do
         mention1 = FakeEntities.fake_mention
-        mention1.status.not_nil!.id = "s1"
-        mention1.status.not_nil!.content = "toot 1"
-        mention1.status.not_nil!.spoiler_text = "spoiler 1"
+        status1 = mention1.status.not_nil!
+        status1.id = "s1"
+        status1.content = "toot 1"
+        status1.spoiler_text = "spoiler 1"
+        status1.account.acct = "test@test.instance"
 
         mention2 = FakeEntities.fake_mention
-        mention2.status.not_nil!.id = "s2"
-        mention2.status.not_nil!.content = "toot 2"
-        mention2.status.not_nil!.visibility = "unlisted"
+        status2 = mention2.status.not_nil!
+        status2.id = "s2"
+        status2.content = "toot 2"
+        status2.visibility = "unlisted"
+        status2.account.acct = "friend@fake.instance"
 
         notifs = [mention1, mention2]
         stream = MockMastodonStream.new(notifs)
@@ -26,6 +30,7 @@ module Tootsee
               id: "s1",
               visibility: "public",
               spoiler_text: "spoiler 1",
+              full_user: "test@test.instance",
             })
           when 1
             mention.should eq({
@@ -33,6 +38,7 @@ module Tootsee
               id: "s2",
               visibility: "unlisted",
               spoiler_text: "",
+              full_user: "friend@fake.instance",
             })
           end
           called += 1

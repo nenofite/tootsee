@@ -9,6 +9,7 @@ module Tootsee
       id: String,
       visibility: String,
       spoiler_text: String,
+      full_user: String, # including the instance, e.g. @tootsee@botsin.space
     }
 
     def initialize(@stream : Ports::MastodonStream); end
@@ -23,6 +24,7 @@ module Tootsee
           id: status.id,
           visibility: status.visibility,
           spoiler_text: status.spoiler_text,
+          full_user: status.account.acct,
         }
         yield mention
       end
