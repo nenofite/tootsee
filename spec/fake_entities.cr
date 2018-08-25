@@ -1,5 +1,4 @@
 # A collection of fake Mastodon entities used for testing.
-
 module FakeEntities
   def self.fake_account
     Mastodon::Entities::Account.from_json(<<-JSON
