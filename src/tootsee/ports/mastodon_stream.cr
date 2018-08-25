@@ -13,8 +13,12 @@ module Tootsee
             url: @config[:masto_url],
             access_token: @config[:access_token],
           )
+          puts("Listening...")
           streaming_client.user do |obj|
             if obj.is_a?(Mastodon::Entities::Notification)
+              if status = obj.status
+                puts("Stream got: #{status.content}")
+              end
               yield obj
             end
           end
