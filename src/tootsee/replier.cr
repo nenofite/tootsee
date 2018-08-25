@@ -5,6 +5,8 @@ module Tootsee
 
     # Send the given text in reply to the given mention.
     def reply(text : String, in_reply_to : Listener::Mention)
+      # Send a reply
+      @client.toot(text, in_reply_to[:id])
     end
   end
 end
