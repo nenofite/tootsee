@@ -12,15 +12,25 @@ module Tootsee
   }
 
   def self.run
+    # Load config from environment variables
     config = {
       masto_url: ENV["MASTO_URL"],
       access_token: ENV["ACCESS_TOKEN"],
       port: ENV["PORT"].to_i,
     }
+
+    # Create ports
     stream = Ports::MastodonStreamI.new(config)
+    client = Ports::MastodonClientI.new(config)
+
+    # Create components
     listener = Listener.new(stream)
-    listener.listen do |notif|
-      puts(notif)
+    replier = Replier.new(client)
+    
+    # Let's go 🎉
+    listener.listen do |mention|
+      puts("Received mention: #{mention}")
+      replier.reply("hi :3", mention)
     end
   end
 end
