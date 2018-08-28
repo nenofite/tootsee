@@ -55,7 +55,7 @@ module MockPorts
 
     getter calls
 
-    def initialize(&block : Params -> HTTP::Client::Response)
+    def initialize(&block : -> HTTP::Client::Response)
       @get_response = block
       @calls = [] of Params
     end
@@ -73,7 +73,7 @@ module MockPorts
         body: body,
       }
       @calls << params
-      @get_response.call(params)
+      @get_response.call
     end
   end
 end

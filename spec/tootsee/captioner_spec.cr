@@ -4,7 +4,7 @@ module Tootsee
   describe Captioner do
     describe "#caption" do
       it "calls the Azure API" do
-        http_client = MockPorts::MockHTTPClientPort.new do |params|
+        http_client = MockPorts::MockHTTPClientPort.new do
           HTTP::Client::Response.new(200, <<-JSON, HTTP::Headers{"Content-Type" => "application/json"})
             {
               "description": {

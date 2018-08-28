@@ -1,4 +1,5 @@
 require "mastodon"
+require "json"
 
 require "./tootsee/**"
 
