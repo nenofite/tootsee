@@ -14,7 +14,15 @@ module Tootsee
     # Actual implementation of the HTTP client. In tests, use
     # `MockHTTPClientPort` instead.
     class HTTPClientPortI < HTTPClientPort
-      # TODO
+      def exec(
+        method : String,
+        url : String | URI,
+        headers : HTTP::Headers? = nil,
+        body : BodyType = nil,
+        tls = nil,
+      ) : HTTP::Client::Response
+        HTTP::Client.exec(method, url, headers, body, tls)
+      end
     end
   end
 end
