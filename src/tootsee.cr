@@ -9,6 +9,8 @@ module Tootsee
     masto_url: String,
     access_token: String,
     port: Int32,
+    azure_url: String,
+    azure_key: String,
   }
 
   def self.run
@@ -17,6 +19,7 @@ module Tootsee
       masto_url: ENV["MASTO_URL"],
       access_token: ENV["ACCESS_TOKEN"],
       port: ENV["PORT"].to_i,
+      azure_url: ENV["AZURE_URL"],
     }
 
     # Create ports
@@ -26,7 +29,7 @@ module Tootsee
     # Create components
     listener = Listener.new(stream)
     replier = Replier.new(client)
-    
+
     # Let's go 🎉
     listener.listen do |mention|
       puts("Received mention: #{mention}")
