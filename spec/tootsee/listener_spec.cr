@@ -19,7 +19,7 @@ module Tootsee
         status2.account.acct = "friend@fake.instance"
 
         notifs = [mention1, mention2]
-        stream = MockMastodonStream.new(notifs)
+        stream = MockPorts::MockMastodonStream.new(notifs)
 
         called = 0
         Tootsee::Listener.new(stream).listen do |mention|
@@ -52,7 +52,7 @@ module Tootsee
           FakeEntities.fake_follow,
           FakeEntities.fake_mention,
         ]
-        stream = MockMastodonStream.new(notifs)
+        stream = MockPorts::MockMastodonStream.new(notifs)
 
         called = 0
         Tootsee::Listener.new(stream).listen do |mention|
@@ -65,7 +65,7 @@ module Tootsee
         mention = FakeEntities.fake_mention
         mention.status.not_nil!.content = "<p><!-- blah -->Hello<br /> <a>@<span>hobob</span></a> \nworld</p>.    "
         notifs = [mention]
-        stream = MockMastodonStream.new(notifs)
+        stream = MockPorts::MockMastodonStream.new(notifs)
 
         Tootsee::Listener.new(stream).listen do |mention|
           mention[:text].should eq "Hello world."
