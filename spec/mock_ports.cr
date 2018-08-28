@@ -42,4 +42,38 @@ module MockPorts
       }
     end
   end
+
+  # A fake HTTP client. Collects all requests in an array that can be asserted
+  # against. Gives responses based on the given block.
+  class MockHTTPClientPort < Tootsee::Ports::HTTPClientPort
+    alias Params = {
+      method: String,
+      url: String | URI,
+      headers: HTTP::Headers?,
+      body: HTTP::Client::BodyType,
+    }
+
+    getter calls
+
+    def initialize(&block : Params -> HTTP::Client::Response)
+      @get_response = block
+      @calls = [] of Params
+    end
+
+    def exec(
+      method : String,
+      url : String | URI,
+      headers : HTTP::Headers? = nil,
+      body : HTTP::Client::BodyType = nil,
+    ) : HTTP::Client::Response
+      params = {
+        method: method,
+        url: url,
+        headers: headers,
+        body: body,
+      }
+      @calls << params
+      @get_response.call(params)
+    end
+  end
 end

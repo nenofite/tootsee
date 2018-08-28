@@ -7,7 +7,6 @@ module Tootsee
         url : String | URI,
         headers : HTTP::Headers? = nil,
         body : BodyType = nil,
-        tls = nil,
       ) : HTTP::Client::Response
     end
 
@@ -18,10 +17,9 @@ module Tootsee
         method : String,
         url : String | URI,
         headers : HTTP::Headers? = nil,
-        body : BodyType = nil,
-        tls = nil,
+        body : HTTP::Client::BodyType = nil,
       ) : HTTP::Client::Response
-        HTTP::Client.exec(method, url, headers, body, tls)
+        HTTP::Client.exec(method, url, headers, body)
       end
     end
   end
