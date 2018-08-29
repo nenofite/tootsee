@@ -6,7 +6,7 @@ authors:
 
 targets:
   tootsee:
-    main: src/app.cr
+    main: app.cr
 
 crystal: 0.25.1
 
