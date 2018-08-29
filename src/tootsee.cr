@@ -19,6 +19,10 @@ module Tootsee
       port: ENV["PORT"].to_i,
     }
 
+    spawn do
+      run_http_server(config)
+    end
+
     # Create ports
     stream = Ports::MastodonStreamI.new(config)
     client = Ports::MastodonClientI.new(config)
@@ -26,11 +30,27 @@ module Tootsee
     # Create components
     listener = Listener.new(stream)
     replier = Replier.new(client)
-    
+
     # Let's go 🎉
     listener.listen do |mention|
       puts("Received mention: #{mention}")
       replier.reply("hi :3", mention)
     end
+  end
+
+  def self.run_http_server(config : Config)
+    # Put up a basic HTTP server to satisfy Heroku. If we don't do this, Heroku
+    # assumes the app failed to start and kills it.
+    server = HTTP::Server.new([
+      HTTP::LogHandler.new,
+      HTTP::ErrorHandler.new,
+    ]) do |context|
+      context.response.respond_with_error(":3", 403)
+    end
+
+    port = config[:port]
+    puts("Listening for HTTP requests on #{port}")
+    server.bind_tcp(port)
+    server.listen
   end
 end
