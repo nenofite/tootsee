@@ -4,7 +4,7 @@ module Tootsee
   describe Replier do
     describe "#toot" do
       it "sends toots" do
-        client = MockMastodonClient.new
+        client = MockPorts::MockMastodonClient.new
         replier = Replier.new(client)
         mention1 = {
           text: "say hi",
