@@ -1,3 +1,0 @@
-require "./tootsee"
-
-Tootsee.run
