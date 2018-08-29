@@ -46,7 +46,8 @@ module Tootsee
       HTTP::LogHandler.new,
       HTTP::ErrorHandler.new,
     ]) do |context|
-      context.response.respond_with_error(":3", 403)
+      context.response.content_type = "text/plain"
+      context.response.print("hello :3")
     end
 
     port = config[:port]
