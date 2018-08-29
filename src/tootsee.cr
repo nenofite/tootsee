@@ -1,4 +1,5 @@
 require "mastodon"
+require "http/server"
 
 require "./tootsee/**"
 
