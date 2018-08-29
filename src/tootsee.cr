@@ -52,7 +52,6 @@ module Tootsee
 
     port = config[:port]
     puts("Listening for HTTP requests on #{port}")
-    server.bind_tcp(port)
-    server.listen
+    server.listen("0.0.0.0", port)
   end
 end
