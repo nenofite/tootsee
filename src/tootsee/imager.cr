@@ -7,7 +7,7 @@ module Tootsee
     def initialize(@http_client : Ports::HTTPClientPort); end
 
     # Get an image URL matching the given phrase
-    def image(phrase : String) : String
+    def image(phrase : String) : String?
       # URL encode the phrase
       phrase_esc = URI.escape(phrase, space_to_plus: true)
 
@@ -30,6 +30,8 @@ module Tootsee
         .reject(&.empty?)
         .to_a
 
+      raise TootseeException.new("Found no images for phrase: #{phrase}") if img_srcs.empty?
+      
       # Pick a random one
       img_srcs.sample(1).first
     end
