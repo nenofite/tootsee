@@ -4,3 +4,7 @@ shards:
     github: decors/mastodon.cr
     commit: 4ca4f32d7a19d4635678c5aa9681f778e1c6fd85
 
+  myhtml:
+    github: kostya/myhtml
+    version: 1.0.0
+
