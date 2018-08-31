@@ -14,6 +14,7 @@ module Tootsee
         "Content-Type" => "application/json",
       }
       result = @http_client.exec("POST", request_url, headers, json_body)
+      raise TootseeException.new(result.to_s) if result.status_code != 200
       json_result = JSON.parse(result.body)
       json_result["description"]["captions"][0]["text"].as_s
     end

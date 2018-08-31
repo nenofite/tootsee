@@ -18,6 +18,7 @@ module Tootsee
         url,
         HTTP::Headers{"Accept" => "text/html"},
       )
+      raise TootseeException.new(response.to_s) if response.status_code != 200
 
       # Parse the HTML
       page = Myhtml::Parser.new(response.body)
