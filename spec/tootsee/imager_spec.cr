@@ -25,7 +25,7 @@ module Tootsee
         http_client.calls.should eq [
           {
             method: "GET",
-            url: "https://duckduckgo.com/?q=i+like+bird+%F0%9F%90%A6&t=hj&iar=images&iax=images&ia=images",
+            url: "https://www.google.com/search?q=i+like+bird+%F0%9F%90%A6&tbm=isch",
             headers: HTTP::Headers{
               "Accept" => "text/html",
             },

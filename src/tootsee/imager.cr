@@ -12,7 +12,7 @@ module Tootsee
       phrase_esc = URI.escape(phrase, space_to_plus: true)
 
       # Get the image search from DuckDuckGo
-      url = "https://duckduckgo.com/?q=#{phrase_esc}&t=hj&iar=images&iax=images&ia=images"
+      url = "https://www.google.com/search?q=#{phrase_esc}&tbm=isch"
       response = @http_client.exec(
         "GET",
         url,
