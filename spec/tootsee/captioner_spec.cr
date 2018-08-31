@@ -42,6 +42,24 @@ module Tootsee
         ]
         result.should eq "Test description"
       end
+
+      it "raises an error on a non-200" do
+        http_client = MockPorts::MockHTTPClientPort.new do
+          HTTP::Client::Response.new(400)
+        end
+
+        config = empty_config.merge({
+          azure_url: "https://test_url.foo",
+          azure_key: "test-azu-key",
+        })
+        captioner = Captioner.new(http_client, config)
+
+        begin
+          captioner.caption("http://testimage.com/foo_bar?32")
+          false.should eq true
+        rescue TootseeException
+        end
+      end
     end
   end
 end

@@ -36,6 +36,20 @@ module Tootsee
         # Not sure how to test the random part without mocking/spying on `Random`
         result.should eq "corgi"
       end
+
+      it "raises an error on a non-200" do
+        http_client = MockPorts::MockHTTPClientPort.new do
+          HTTP::Client::Response.new(400)
+        end
+
+        imager = Imager.new(http_client)
+
+        begin
+          imager.image("i like bird 🐦")
+          false.should eq true
+        rescue TootseeException
+        end
+      end
     end
   end
 end

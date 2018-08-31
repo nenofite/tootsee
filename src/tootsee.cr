@@ -15,6 +15,8 @@ module Tootsee
     azure_key: String,
   }
 
+  class TootseeException < Exception; end
+
   def self.run
     # Load config from environment variables
     config = {
