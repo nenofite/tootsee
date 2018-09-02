@@ -15,6 +15,8 @@ module Tootsee
     azure_key: String,
   }
 
+  class TootseeException < Exception; end
+
   def self.run
     # Load config from environment variables
     config = {
@@ -38,13 +40,14 @@ module Tootsee
     listener = Listener.new(stream)
     replier = Replier.new(client)
     captioner = Captioner.new(http_client, config)
+    imager = Imager.new(http_client)
 
     # Let's go 🎉
     listener.listen do |mention|
       puts("Received mention: #{mention}")
-      # TODO For now we hardcode a URL of a corgi doing a sploot. Eventually
-      # this will be the URL from an image search.
-      caption = captioner.caption("https://i.pinimg.com/736x/ca/fc/f3/cafcf316846261671d6a3944838c180d--corgi-mix-young-ones.jpg")
+      image = imager.image(mention[:text])
+      puts("Image: #{image}")
+      caption = captioner.caption(image)
       puts("Caption: #{caption}")
       replier.reply(caption, mention)
     end

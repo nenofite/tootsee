@@ -15,3 +15,5 @@ license: MIT
 dependencies:
   mastodon:
     github: decors/mastodon.cr
+  myhtml:
+    github: kostya/myhtml
