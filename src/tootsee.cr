@@ -44,12 +44,14 @@ module Tootsee
 
     # Let's go 🎉
     listener.listen do |mention|
-      puts("Received mention: #{mention}")
-      image = imager.image(mention[:text])
-      puts("Image: #{image}")
-      caption = captioner.caption(image)
-      puts("Caption: #{caption}")
-      replier.reply(caption, mention)
+      spawn do
+        puts("Received mention: #{mention}")
+        image = imager.image(mention[:text])
+        puts("Image: #{image}")
+        caption = captioner.caption(image)
+        puts("Caption: #{caption}")
+        replier.reply(caption, mention)
+      end
     end
   end
 
