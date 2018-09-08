@@ -13,6 +13,45 @@ Let’s make a Mastodon bot! We’ll name them Tootsee. Here’s the idea:
 
 It’s like a game of telephone but with neural nets.
 
+## Setting Up For Development
+### Prereqs
+You will need the following before setting up the project locally on your computer.
+
+* Mastodon account Access Token (Can be found in your desired Mastodon instance's Settings > Development > New Application)
+  * Enable read, write, and push permissions.
+
+* One of the two keys from your Microsoft Azure Computer Vision resource (Free plan available)
+
+* The URL to call the Microsoft Azure Computer Vision resource
+  * Usually in the format of `https://some_geographic_location.api.cognitive.microsoft.com/vision/v1.0`
+
+### Setup
+1. To set up the project, you will need to install Crystal, the programming language used in this project. [You can follow the instructions found here to install it on your system](https://crystal-lang.org/docs/installation/).
+
+2. Once that is installed, set up the project and set up the dependencies by running `shards install`.
+
+3. Next you will need to set up environmental variables.
+```bash
+export AZURE_KEY="[REPLACE WITH YOUR AZURE KEY HERE]"
+export AZURE_URL="[REPLACE WITH YOUR AZURE COMPUTER VISION SERVER URL]/analyze"
+export PORT=[PICK YOUR FAVORITE PORT]
+export ACCESS_TOKEN="[REPLACE WITH YOUR MASTODON ACCESS TOKEN]"
+export MASTO_URL="[REPlACE WITH YOUR MASTODON INSTANCE URL WITHOUT PROTOCOL]"
+```
+
+as an example it might look something like this:
+```bash
+export AZURE_KEY="ab3813dae9b8fe09fa09b3e70fb3bfae70fb3e70fb3bf78"
+export AZURE_URL="https://eastus.api.cognitive.microsoft.com/vision/v1.0/analyze"
+export PORT=7007
+export ACCESS_TOKEN="8febab38ba0704fa070fb370f9f013dae9bf09f8"
+export MASTO_URL="botsin.space"
+```
+
+4. Next, start the webserver with `crystal run app.cr` and tootsee away~
+
+## Technical Implementation
+
 ### Retrieving Mentions from Mastodon
 
 Tootsee subscribes to push notifications. This way, Mastodon will call our
