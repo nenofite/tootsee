@@ -16,7 +16,7 @@ module Tootsee
       result = @http_client.exec("POST", request_url, headers, json_body)
       raise TootseeException.new(result.to_s) if result.status_code != 200
       json_result = JSON.parse(result.body)
-      captions = json_result["description"]["captions"]
+      captions = json_result["description"]["captions"].as_a
       raise TootseeException.new("No caption available") if captions.empty?
       captions[0]["text"].as_s
     end
