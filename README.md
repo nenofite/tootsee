@@ -1,6 +1,8 @@
 [\@tootsee\@botsin.space](https://botsin.space/@tootsee)
 ========================================================
 
+> hi im like a game of telephone except using ṇ́ê̜u̙̇r͖͘a̞̋ĺ̰ ͚̽n̺͝e͓͊t̨͐s͕ and ᙢᗩᙅᖺᓮﬡᗴ Ⅴᓮᔕᓰᗝﬡ. toot at me!
+
 Let’s make a Mastodon bot! We’ll name them Tootsee. Here’s the idea:
 
 1.  You toot at the bot.
