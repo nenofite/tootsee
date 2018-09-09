@@ -48,7 +48,7 @@ module Tootsee
     listener.listen do |mention|
       spawn do
         puts("Received mention: #{mention}")
-        attempt_to("reply to #{mention.id}") do
+        attempt_to("reply to #{mention[:id]}") do
           image = imager.image(mention[:text])
           puts("Image: #{image}")
           caption = captioner.caption(image)
