@@ -5,6 +5,8 @@ require "json"
 require "./tootsee/**"
 
 module Tootsee
+  extend self
+
   # Configuration for the bot, e.g. the Mastodon URL and secret keys. These are
   # extracted from environment variables.
   alias Config = {
@@ -17,7 +19,7 @@ module Tootsee
 
   class TootseeException < Exception; end
 
-  def self.run
+  def run
     # Load config from environment variables
     config = {
       masto_url: ENV["MASTO_URL"],
@@ -46,16 +48,18 @@ module Tootsee
     listener.listen do |mention|
       spawn do
         puts("Received mention: #{mention}")
-        image = imager.image(mention[:text])
-        puts("Image: #{image}")
-        caption = captioner.caption(image)
-        puts("Caption: #{caption}")
-        replier.reply(caption, mention)
+        attempt_to("reply to #{mention[:id]}") do
+          image = imager.image(mention[:text])
+          puts("Image: #{image}")
+          caption = captioner.caption(image)
+          puts("Caption: #{caption}")
+          replier.reply(caption, mention)
+        end
       end
     end
   end
 
-  def self.run_http_server(config : Config)
+  def run_http_server(config : Config)
     # Put up a basic HTTP server to satisfy Heroku. If we don't do this, Heroku
     # assumes the app failed to start and kills it.
     server = HTTP::Server.new([
@@ -69,5 +73,31 @@ module Tootsee
     port = config[:port]
     puts("Listening for HTTP requests on #{port}")
     server.listen("0.0.0.0", port)
+  end
+
+  # Execute the task until it does not raise an exception.
+  # 1. Run the task immediately.
+  # 2. If it fails, log the error and that it is retrying.
+  # 3. Sleep for a short time.
+  # 4. Retry the task.
+  # 5. If it fails, repeat from step 2 up to `times` times.
+  def attempt_to(task : String, *, times : Int32 = 4, &block)
+    attempt = 1
+    next_sleep = 300.milliseconds
+    while attempt < times
+      begin
+        yield
+        return
+      rescue ex
+        STDERR.puts("In attempt #{attempt} to #{task}:")
+        ex.inspect_with_backtrace(STDERR)
+      end
+      attempt += 1
+      STDERR.puts("Attempt #{attempt}/#{times} to #{task}. Sleeping for #{next_sleep}")
+      sleep(next_sleep)
+      next_sleep *= 10
+    end
+    # On the final attempt, don't rescue
+    yield
   end
 end
